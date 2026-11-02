@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "employee-attrition-dashboard"
+version = "1.0.0"
+description = "Real-Time Employee Attrition Prediction Dashboard with Intelligent Insights"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11,<3.14"
+authors = [
+    {name = "Kadam Chetan Shivaji"},
+    {name = "Kale Nikhil Dattatray"},
+    {name = "Kandalkar Suraj Balu"},
+    {name = "Khemnar Om Dipak"},
+    {name = "Dabhade Yash Vijay"},
+]
+
+dependencies = [
+    "streamlit>=1.38.0,<2.0",
+    "pandas>=2.1.0,<3.0",
+    "numpy>=1.26.0,<3.0",
+    "scikit-learn>=1.4.0,<2.0",
+    "imbalanced-learn>=0.12.0,<1.0",
+    "xgboost>=2.0.0,<3.0",
+    "lightgbm>=4.1.0,<5.0",
+    "optuna>=3.5.0,<4.0",
+    "shap>=0.44.0,<1.0",
+    "fairlearn>=0.10.0,<1.0",
+    "joblib>=1.3.0,<2.0",
+    "pydantic>=2.5.0,<3.0",
+    "pydantic-settings>=2.1.0,<3.0",
+    "matplotlib>=3.8.0,<4.0",
+    "plotly>=5.18.0,<6.0",
+    "argon2-cffi>=23.1.0,<24.0",
+    "python-dotenv>=1.0.0,<2.0",
+    "structlog>=24.1.0,<25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0,<9.0",
+    "pytest-cov>=5.0.0,<6.0",
+    "pytest-xdist>=3.5.0,<4.0",
+    "hypothesis>=6.92.0,<7.0",
+    "ruff>=0.4.0,<1.0",
+    "black>=24.1.0,<25.0",
+    "mypy>=1.8.0,<2.0",
+    "bandit>=1.7.0,<2.0",
+    "pip-audit>=2.7.0,<3.0",
+    "pre-commit>=3.6.0,<4.0",
+    "types-requests>=2.31.0",
+]
+api = [
+    "fastapi>=0.109.0,<1.0",
+    "uvicorn>=0.27.0,<1.0",
+]
+all = ["employee-attrition-dashboard[dev,api]"]
+
+[project.scripts]
+attrition-train = "attrition.train:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "N"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "e2e: End-to-end tests",
+    "slow: Slow tests",
+    "model: Model quality tests",
+]
+
+[tool.coverage.run]
+source = ["src/attrition"]
+omit = ["tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
+
